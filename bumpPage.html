@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!-- APPLICATION INFORMATION
+			- Developer: Brian Fabrizio
+			- Date: 28 December 2014
+			- Description: A single-page applciation utilizing a 'bump' section for hidden menu access.
+			-->
+	<title> WebDev Sandbox </title>
+	
+	<link rel="stylesheet" href="owl/owl-carousel/owl.carousel.css">
+	<link rel="stylesheet" href="owl/owl-carousel/owl.theme.css">
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="semantic-packaged/css/semantic.css" rel="stylesheet" type="text/css">
+	
+	
+	<script src="js/jquery-1.11.1.js"></script>
+	<script src="js/knockout.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/backbone.js"></script> <!-- Apparently, this file must be loaded after underscore.js -->
+	<script src="views/presentations/presentations.js"></script>
+	<script src="owl/owl-carousel/owl.carousel.js"></script>
+	<script src="highcharts/js/highcharts.js"></script>
+	<script src="highcharts/js/highcharts-more.js"></script>
+	<script src="js/jqueryUI/jquery-ui.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="semantic-packaged/javascript/semantic.js"></script> 
+	<!-- <script src="js/angular.js"></script> -->
+	<script src="js/breezy.js"></script>
+	<script src="views/models/specModel.js"></script>
+	
+	<!-- Data Models -->
+	<script src="models/contacts.js"></script>
+	<!-- End Data Models -->
+	
+	
+	<!-- ## CSS SHOULD BE MANAGED VIA SASS IN EXTERNAL FILES ## -->
+	<style>
+		body { background: url('img/defaultBackground.jpg'); background-position: top -200px left 0px; overflow: hidden } 
+		body, p, ul li { line-height: 2em; font-size: 16px; }
+		a { color: #B82500; }
+		#page-content-header { background: none; border: none; }
+		#pageContent { position: absolute; top: 10.5%; left: 2%; width: 96%; min-height: 560px; height: 560px; margin: auto; border: 5px solid black; border-radius: 5px; background: white; padding: 20px; }
+		#close-page-content { text-decoration: none; }
+		#bumpContent { position: absolute; top: 8%; left: 0%; min-width: 41%; width: 100%; min-height: 640px; height: 640px; margin: auto; background: white; border-top: 1px solid #ddd; border-right: 1px solid #ddd; padding: 15px; }
+		#close-bump-content { text-decoration: none; }
+		#loaded-page-content { margin-top: 1em; }
+		#landingContent {
+			width: 600px;
+			height: auto;
+			margin-left: 2%;
+			line-height: 2em;
+			margin-top: 42px;
+			font-size: 18px;  }
+		#json-menu { margin-bottom: -8%; }
+		.iconLink { width: 30%; height: 100px; background: #ddd; border: 2px solid #333; border-radius: 6px; margin-right: 17px; float: left; margin-bottom: 5px; }
+	</style>
+	
+	
+</head>
+
+<body>
+
+	<!-- ## SITE NAVIGATION ## -->
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<ul class="nav navbar-nav">
+				<li><a href="#"> <span class="glyphicon glyphicon-histogram"></span> </a></li>
+				<li><a href="#" id="load-contacts"> <span class="glyphicon glyphicon-user" style="color: #4791B5;"></span> Contacts </a></li>
+				<li><a href="#" id="load-analysis"> <span class="glyphicon glyphicon-stats" style="color: #4791B5;"></span> Analysis </a></li> 
+				<li><a href="#" id="load-sandbox"> <span class="glyphicon glyphicon-pencil" style="color: #4791B5;"></span> Sandbox </a></li>
+				<li><a href="#" id="load-references"> <span class="glyphicon glyphicon-pushpin" style="color: #4791B5;"></span> References </a></li>
+				<li> <a href="#" id="load-objectives"> <span class="glyphicon glyphicon-flag" style="color: #4791B5;"></span> Objectives </a> </li>
+				<li><a href="#" id="load-projects"> <span class="glyphicon glyphicon-wrench" style="color: #4791B5;"></span> Projects </a> </li>
+				<!-- <li><a href="#" id="load-presentations"> <span class="glyphicon glyphicon-volume-up"></span> Presentations </a></li> -->
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-picture" style="color: #4791B5;"></span> Presentations <span class="caret"></span></a> 
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" id="load-presentation-1"> R&D Collaboration </a></li>
+							
+						</ul>
+				</li>
+				
+				
+ 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-th-large" style="color: #4791B5;"></span> QA Systems <span class="caret"></span></a> 
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" id="load-chart-1"> Recipe Development </a></li>
+							<li><a href="#" id="load-chart-2"> Quality Management</a></li>
+							<li><a href="#" id="load-chart-3"> Project and Portfolio Management</a> </li>
+							<li><a href="#" id="load-chart-4"> Customer Relationship Management </a></li>
+							<li><a href="#" id="load-chart-5"> Manufacturing Integration and Intelligence  </a></li>
+						</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<!-- ## END SITE NAVIGATION ##################################################################################  -->
+	
+	
+	
+	
+	<!-- ## PIXEL CONTENT BUMP ## -->
+	<a href="#"> <div id="contentBump" style="width: 1px; height: 600px; background: silver; float: left;"></div> </a>
+	<!-- ## END CONTENT BUMP #################################################################################### -->
+	
+	<!-- ## BUMP CONTENT ## -->
+	<div id="bumpContent">
+		 
+			<div class="panel panel-default" id="page-content-header">
+				<a href="#" id="close-bump-content"><i class="big remove circle icon" style="float: right;"></i></a>
+			</div>
+			
+			<!-- Content section within sliding page used to store the loaded external content. -->
+			<div id="bump-page-content"></div>
+				
+	</div>
+	<!-- ## END BUMP CONTENT ## -->
+	
+	
+	
+	<!-- ## LANDING PAGE DASHBOARD SECTION ## -->
+		<div id="dashboardSection" style="width: auto; height: auto;"> 
+			<!-- <img src="img/dashboardImage.png" style="width: 595px; margin-left: 30px; margin-top: 50px;"><br /> -->
+			<!-- <img src="img/sapplm.png" style="width: 595px; margin-left: 30px; margin-top: 50px; border-radius: 5px;"> <br /> -->
+			<!-- <img src="img/dashboardImage.png" style="width: 180px; margin-left: 30px; margin-top: 10px; border: 2px solid #333;">
+			<img src="img/dashboardImage.png" style="width: 180px; margin-left: 24px; margin-top: 10px; border: 2px solid #333;">
+			<img src="img/dashboardImage.png" style="width: 180px; margin-left: 24px; margin-top: 10px; border: 2px solid #333;">  -->
+		</div>
+		
+		<!-- Backbone Testing -->
+		<script>
+		
+			var Alpha = Backbone.Model.extend({
+				initialize: function() {
+					console.log("Backbone testing...."); // automatically runs when new object is instantiated
+				},
+				defaults: {
+					fname: "Brian",
+					mname: "Thomas",
+					lname: "Fabrizio",
+					city: "Greeley",
+					state: "CO"
+				}
+			});
+				
+			var Bravo = new Alpha();
+			// console.log(JSON.stringify(Bravo));
+			console.log("----- Getting");
+			console.log("Full name: " + Bravo.get('fname') + " " + Bravo.get('mname') + " " + Bravo.get('lname'));	
+			console.log(JSON.stringify(Bravo));
+			var BravoAttributes = Bravo.toJSON();
+			console.log(BravoAttributes);
+			
+			console.log("---- Setting");
+			
+			
+		</script>
+		<div id="backbone"></div>
+		
+	<!-- ## END LANDING PAGE DASHBOARD SECTION ## -->
+	
+	
+	<!-- ## SLIDER CONTENT 
+				DESCRIPTION:  This content section slides in from off the screen with content loaded based on the backend data denoted by the event trigger (hyperlink unless noted otherwise)  ## -->
+	
+	<div id="pageContent">
+		 
+			<div class="panel panel-default" id="page-content-header">
+				<a href="#" id="close-page-content"><i class="big remove circle icon" style="float: right;"></i></a>
+			</div>
+			
+			<!-- Content section within sliding page used to store the loaded external content. -->
+			<div id="loaded-page-content"></div>
+				
+	</div>
+	
+	<!-- ## END SLIDER CONTENT #################<script src="js/contacts.js"></script>########################################################### -->
+	
+	
+
+</body>
+</html>	
