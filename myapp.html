@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script src="react.js"></script> <!-- Must include -->
+ 	<script src="react-dom.js"></script> <!-- Must include -->
+	<script src="browser.min.js"></script> <!-- Babel Transpiler -->
+</head>
+
+<body>
+
+	
+	
+		<div id="example"></div>
+		<div id="foo1"></div>
+		<div id="foo2"></div>
+
+		<script type="text/babel">
+		
+	
+		
+		ReactDOM.render(<h1> Hi, my name is Brian!</h1>, document.getElementById('example'));
+		
+		
+			
+			
+			
+		// Component 1
+		// A component can only return 1 parent element!  By wrapping them in a single DIV, you can get around this issue.
+			var Bacon = React.createClass({
+				render: function() {
+					return(
+						<h2> This is a simple component. </h2>
+					);
+				}
+			});
+			// Rendering multiple elements in a component can be done by wrapping in a DIV as well.
+			ReactDOM.render(<Bacon />, document.getElementById('example'));
+			
+	// End Component 1 ######################################################################		
+			
+			
+			
+			
+			
+	// Component 2	
+	// Properties allow you to customize components
+	// Properties are static and cannot be changed.
+	var Foo = React.createClass({
+		render: function() {
+			return(
+				<div>
+					<div>{this.props.fname}, {this.props.lname}</div>
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(
+		<div>
+			<Foo fname="Brian" lname="Fabrizio" />
+			<Foo fname="Luca" lname="Fabrizio" />
+		</div>
+		, document.getElementById("foo1"));  // rendering multiple components
+				
+	// End Properties Example ################################################################
+
+
+		
+		
+	// Component 3			
+	// Event handling
+	var Comment = React.createClass({
+		edit: function() {
+			alert("Editing comment.....");
+		},
+		remove: function() {
+			alert("Removing comment.....");
+		},
+		render: function() {
+			return (
+				<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div> // accesses text between open and close tags
+					<button onClick={this.edit} className="btn-primary"> Edit </button>
+					<button onClick={this.remove} className="btn-danger"> Remove </button>
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(
+		<div className="board">
+			<Comment>Eat Shit</Comment>
+			<Comment>Who Want's Some</Comment>
+			<Comment>Bitchin</Comment>
+		</div>
+		, document.getElementById('foo2'));
+				
+	// End Event Handling Example #########################################################
+			
+			
+		
+		
+		
+		
+		// State Handling
+		
+		
+		
+		
+		// End State Handling
+			
+			
+			
+		</script>
+
+
+</body>
+</html>
